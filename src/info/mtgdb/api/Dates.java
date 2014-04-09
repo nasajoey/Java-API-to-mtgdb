@@ -24,13 +24,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import java.text.SimpleDateFormat;
-
 public class Dates {
 
 	/* Formatters for dates.  If the format of the date from the web service API changes,
 	 * then dateFormatterInput should be adjusted accordingly.
+	 * 
+	 * UPDATE:  Apparently these aren't thread safe.  Booooooo!
+	 * They are no longer used in the project.  But I'll leave them here for historical 
+	 * reference and as a mark of shame to Java for having such an innocuous class rely
+	 * on non-thread safe data structures.  Boooo!
 	 */
-	public final static SimpleDateFormat dateFormatterInput  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-	public final static SimpleDateFormat dateFormatterOutput = new SimpleDateFormat("yyyy-MM-dd");
+	//public final static SimpleDateFormat dateFormatterInput  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	//public final static SimpleDateFormat dateFormatterOutput = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public final static String dateFormatInput  = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public final static String dateFormatOutput = "yyyy-MM-dd";
 }

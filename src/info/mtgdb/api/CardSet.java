@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,12 +81,10 @@ public class CardSet {
 						//System.out.println("Set "+cardField.name+" to "+cardField.f.get(this));
 					}
 					else if( cardField.type.matches("java.util.Date") ) {
-						//System.out.println(json.getString(s));
-						Date date = Dates.dateFormatterInput.parse(json.getString(s));
+						SimpleDateFormat sdf = new SimpleDateFormat(Dates.dateFormatInput);
+						Date date = sdf.parse(json.getString(s));
 
 						cardField.f.set(this, date);
-						//Date d = this.getReleasedAt();
-						//System.out.println("Set "+cardField.name+" to "+d.toString());
 					}
 					else if( cardField.type.matches("java.util.List") ) {
 						JSONArray jsonArray = json.getJSONArray(s);
