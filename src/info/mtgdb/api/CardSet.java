@@ -119,6 +119,7 @@ public class CardSet {
 	private int rare;
 	private int mythicRare;
 	private int basicLand;
+	private int total;
 
 	private Date releasedAt;
 	private List<Integer> cardIds;
@@ -239,6 +240,14 @@ public class CardSet {
 
 	public void setCardIds(List<Integer> cardIds) {
 		this.cardIds = cardIds;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 }

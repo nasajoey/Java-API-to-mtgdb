@@ -65,6 +65,7 @@ public class TestDb {
 		CardSet cardSet = Db.getSet("10E");
 		//System.out.println("10E cards: "+cardSet.getCardIds().size());
 		assertEquals("The set should be 10E.", "10E", cardSet.getId());
+		assertEquals("The number of cards in 10E should be 368.", 368, cardSet.getTotal());
 	}
 	
 	@Test
