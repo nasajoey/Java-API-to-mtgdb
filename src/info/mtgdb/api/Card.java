@@ -124,21 +124,19 @@ public class Card {
 					if( cardField.type.matches("int") ) {
 						int val = json.getInt(s);
 						cardField.f.set(this, val);
-						//System.out.println("Set "+cardField.name+" to "+cardField.f.getInt(this));
+					}
+					else if( cardField.type.matches("boolean") ) {
+						boolean val = json.getBoolean(s);
+						cardField.f.set(this, val);
 					}
 					else if( cardField.type.matches("java.lang.String") ) {
 						Object o = json.get(s);
 						if( o != JSONObject.NULL ) cardField.f.set(this, (String) o);
 						else continue;
-						//System.out.println("Set "+cardField.name+" to "+cardField.f.get(this));
 					}
 					else if( cardField.type.matches("java.util.Date") ) {
-						//System.out.println(json.getString(s));
-						Date date = dateFormatterInput.parse(json.getString(s));
-						
+						Date date = dateFormatterInput.parse(json.getString(s));						
 						cardField.f.set(this, date);
-						//Date d = this.getReleasedAt();
-						//System.out.println("Set "+cardField.name+" to "+d.toString());
 					}
 					else if( cardField.type.matches("java.util.List") ) {
 						JSONArray jsonArray = json.getJSONArray(s);
@@ -147,10 +145,6 @@ public class Card {
 							for( int i = 0; i < jsonArray.length(); i++ ) {
 								colors.add(jsonArray.getString(i));
 							}
-								
-//							for( String str : colors ) {
-//								//System.out.println("color "+str);
-//							}
 						}
 						else if( s.matches("rulings") ) {
 							rulings = new ArrayList<Ruling>();
@@ -158,9 +152,6 @@ public class Card {
 								Ruling r = new Ruling(jsonArray.getJSONObject(i));
 								rulings.add(r);
 							}
-//							for( Ruling r : rulings ) {
-//								//System.out.println(r.toString());
-//							}
 						}
 						else if( s.matches("formats") ) {
 							formats = new ArrayList<Format>();
@@ -168,9 +159,6 @@ public class Card {
 								Format f = new Format(jsonArray.getJSONObject(i));
 								formats.add(f);
 							}
-//							for( Format f : formats ) {
-//								//System.out.println(f.toString());
-//							}
 						}		
 					}
 				} catch (IllegalArgumentException e) {
@@ -193,7 +181,6 @@ public class Card {
 			CardField cf = new CardField();
 			cf.type = f.getType().getCanonicalName();
 			cf.f = f;
-		//	cf.name = f.getName();
 			memberTypeHash.put(f.getName(), cf);
 		}
 	}
@@ -223,6 +210,8 @@ public class Card {
 	private List<Format> formats	= null;
 
 	private Date releasedAt			= null;
+	
+	private boolean token			= false;
 
 	/**
 	 * @return String of the URL to retrieve this Card object's image.
@@ -575,6 +564,14 @@ public class Card {
 	 */
 	public void setSearchName(String searchName) {
 		this.searchName = searchName;
+	}
+
+	public boolean isToken() {
+		return token;
+	}
+
+	public void setToken(boolean isToken) {
+		this.token = isToken;
 	}
 
 }
