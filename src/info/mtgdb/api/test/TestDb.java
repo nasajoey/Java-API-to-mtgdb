@@ -50,6 +50,18 @@ public class TestDb {
 		Card card = Db.getCard(14456);
 		assertEquals("Card id should be 14456.", 14456, card.getId());
 	}
+	
+	@Test
+	public void testGetRandom() {
+		Card card = Db.getRandom();
+		//System.out.println("Got "+card.getName()+" from "+card.getCardSetId());
+		assertNotNull("We didn't retrieve a random card.", card);
+		
+		card = Db.getRandom("ALA");
+		//System.out.println("Got "+card.getName()+" from "+card.getCardSetId());
+		assertNotNull("We didn't retrieve a random card from ALA.", card);
+		assertEquals("Card was not from ALA.", "ALA", card.getCardSetId());
+	}
 
 	@Test
 	public void testGetCardArrayByIds() {

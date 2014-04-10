@@ -60,6 +60,32 @@ public class Db {
 	public static void setApiUrl(String url) {
 		API_URL = url;
 	}
+	
+	/** 
+	 * Get a random card from a particular set.
+	 * 
+	 * @param setId The id of the set from which to retrieve a random card.  If setId is null, then return a completely random card.
+	 * @return Card
+	 */
+	public static Card getRandom(String setId) {
+		Card card = null;
+		
+		String url = setId == null ? API_URL+"/cards/random" : API_URL+"/sets/"+setId+"/cards/random";
+		JSONObject root = getObject(url);
+		card = new Card(root);
+		
+		//System.out.println(url.toString());
+		return card;
+	}
+	
+	/**
+	 * Get a completely random Card.
+	 * 
+	 * @return Card
+	 */
+	public static Card getRandom() {
+		return getRandom(null);
+	}
 
 	/**
 	 * Get a card from a multiverse id.
