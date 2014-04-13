@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 public class Ruling {
 
-	private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	private final SimpleDateFormat dateFormatter = new SimpleDateFormat(Dates.dateFormatInput);
 	
 	private String rule;
 	private Date releasedAt;

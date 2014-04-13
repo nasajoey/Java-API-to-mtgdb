@@ -86,8 +86,8 @@ public class Card {
 	/* Formatters for dates.  If the format of the date from the web service API changes,
 	 * then dateFormatterInput should be adjusted accordingly.
 	 */
-	private final SimpleDateFormat dateFormatterInput  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-	private final SimpleDateFormat dateFormatterOutput = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat dateFormatterInput  = new SimpleDateFormat(Dates.dateFormatInput);
+	private final SimpleDateFormat dateFormatterOutput = new SimpleDateFormat(Dates.dateFormatOutput);
 
 	/* Used in reflection to access data members by name when processing JSON. */
 	private class CardField {

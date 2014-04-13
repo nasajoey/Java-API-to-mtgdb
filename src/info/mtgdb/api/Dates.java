@@ -37,6 +37,6 @@ public class Dates {
 	//public final static SimpleDateFormat dateFormatterInput  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	//public final static SimpleDateFormat dateFormatterOutput = new SimpleDateFormat("yyyy-MM-dd");
 	
-	public final static String dateFormatInput  = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public final static String dateFormatInput  = "yyyy-MM-dd";
 	public final static String dateFormatOutput = "yyyy-MM-dd";
 }
