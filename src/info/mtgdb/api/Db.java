@@ -22,7 +22,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -60,7 +60,38 @@ public class Db {
 	public static void setApiUrl(String url) {
 		API_URL = url;
 	}
-	
+
+	public static Card getCardFromUrl(String url) {
+		Card card = null;
+		JSONObject root = getObject(url);
+		card = new Card(root);
+
+		return card;
+	}
+
+	public static CardSet getSetFromUrl(String url) {
+		CardSet cardSet = null;
+
+		JSONObject root = getObject(url);
+		cardSet = new CardSet(root);
+
+		return cardSet;
+	}
+
+	public static ArrayList<Card> getCardsFromUrl(String url) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		
+		JSONArray ja = getArray(url);
+
+		/* Process the JSON to create the list of cards. */
+		for( int i = 0; i < ja.length(); i++ ) {
+			Card card = new Card(ja.getJSONObject(i));
+			if( card != null ) cards.add(card);
+		}
+
+		return cards;
+	}
+
 	/** 
 	 * Get a random card from a particular set.
 	 * 
@@ -68,16 +99,10 @@ public class Db {
 	 * @return Card
 	 */
 	public static Card getRandom(String setId) {
-		Card card = null;
-		
 		String url = setId == null ? API_URL+"/cards/random" : API_URL+"/sets/"+setId+"/cards/random";
-		JSONObject root = getObject(url);
-		card = new Card(root);
-		
-		//System.out.println(url.toString());
-		return card;
+		return getCardFromUrl(url);
 	}
-	
+
 	/**
 	 * Get a completely random Card.
 	 * 
@@ -94,13 +119,8 @@ public class Db {
 	 * @return A {@link Card} referenced by id.
 	 */
 	public static Card getCard(int id) {
-		Card card = null;
-
 		String url = API_URL+"/cards/"+id;
-		JSONObject root = getObject(url);
-		card = new Card(root);
-
-		return card;
+		return getCardFromUrl(url);
 	}
 
 	/**
@@ -110,13 +130,8 @@ public class Db {
 	 */
 	public static CardSet getSet(String setId)
 	{
-		CardSet cardSet = null;
-
 		String url = API_URL+"/sets/"+setId;
-		JSONObject root = getObject(url);
-		cardSet = new CardSet(root);
-
-		return cardSet;
+		return getSetFromUrl(url);
 	}
 
 	/**
@@ -166,9 +181,8 @@ public class Db {
 	 * @return An {@link ArrayList} of {@link Card} objects corresponding to the ids.
 	 */
 	public static ArrayList<Card> getCards(ArrayList<Integer> multiverseIds) {
-		ArrayList<Card> cards = new ArrayList<Card>();
 		StringBuilder sb = new StringBuilder();
-		
+
 		/* Make a list of the ids to fetch. */
 		for( Integer i : multiverseIds ) {
 			sb.append(i+",");
@@ -176,15 +190,9 @@ public class Db {
 		/* Remove trailing ',' */
 		if( multiverseIds.size() > 0 ) sb.deleteCharAt(sb.length()-1);
 		String url = API_URL+"/cards/"+sb.toString();
-		JSONArray ja = getArray(url);
 		
-		/* Process the JSON to create the list of cards. */
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
+		return getCardsFromUrl(url);
 
-		return cards;
 	}
 
 	/**
@@ -197,7 +205,7 @@ public class Db {
 	 */
 	public static ArrayList<Card> getSetCards(String setId, int start, int end) {
 		if( end < start || start <= 0 ) return null;
-		ArrayList<Card> cards = new ArrayList<Card>();
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append(API_URL);
 		sb.append("/sets/");
@@ -206,21 +214,10 @@ public class Db {
 		sb.append(start);
 		sb.append("&end=");
 		sb.append(end);
-		
-		JSONArray ja = getArray(sb.toString());
-		
-		/* Process the JSON to create the list of cards. */
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
 
-		
-		
-		return cards;
-		
+		return getCardsFromUrl(sb.toString());
 	}
-	
+
 	/**
 	 * Get all versions of a card with the supplied name.
 	 * 
@@ -228,52 +225,30 @@ public class Db {
 	 * @return A {@link ArrayList} of {@link Card} objects.
 	 */
 	public static ArrayList<Card> getCards(String name) {
-		ArrayList<Card> cards = new ArrayList<Card>();
 		String url = API_URL+"/cards/"+name;
-		JSONArray ja = getArray(url);
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-
-		return cards;
+		return getCardsFromUrl(url);
 	}
-	
+
 	public static ArrayList<Card> getSetCards(String setName) {
-		ArrayList<Card> cards = new ArrayList<Card>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(API_URL);
 		sb.append("/sets/");
 		sb.append(setName);
 		sb.append("/cards/");
-		JSONArray ja = getArray(sb.toString());
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-
-		return cards;
-	}
-	
-	public static ArrayList<Card> getCards(Set<String> fields) {
+		return getCardsFromUrl(sb.toString());
 		
-		ArrayList<Card> cards = new ArrayList<Card>();
+	}
+
+	public static ArrayList<Card> getCards(Set<String> fields) {
 		StringBuilder sb = new StringBuilder();
-		//for( int i = 0; i < fields.size(); i++ )
 		for( String s : fields ) {
 			sb.append(s+",");			
 		}
 		if( fields.size() > 0 ) sb.deleteCharAt(sb.length()-1);
 		String url = API_URL+"/cards/?fields="+sb.toString();
-		JSONArray ja = getArray(url);
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-
-		return cards;
+		return getCardsFromUrl(url);
 	}
-	
+
 	/**
 	 * Returns a list of cards matching the supplied query string.  Note that it will not filter for
 	 * size, so a generic or empty query string will return many, many cards.  Non alphanumberic characters
@@ -283,16 +258,9 @@ public class Db {
 	 * @return ArrayList<Card> matching the query text.
 	 */
 	public static ArrayList<Card> searchCards(String searchText) {
-		ArrayList<Card> cards = new ArrayList<Card>();
 		searchText = searchText.replaceAll("[^A-Za-z0-9 -]", "");
 		String url = API_URL+"/search/"+searchText;
-		//System.out.println("Search URL is "+url);
-		JSONArray ja = getArray(url);
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-		return cards;
+		return getCardsFromUrl(url);
 	}
 
 	/**
@@ -303,22 +271,15 @@ public class Db {
 	public static ArrayList<Card> getCards() {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		String url = API_URL+"/cards/";
-		JSONArray ja = getArray(url);
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-
-		return cards;
+		return getCardsFromUrl(url);
 	}
-	
+
 	/**
 	 * 
 	 * @param filters HashMap<String, String> containing a mapping of keys to values.  For example colors and black.
 	 * @return ArrayList
 	 */
 	public static ArrayList<Card> filterCards(HashMap<String, String> filters) {
-		ArrayList<Card> cards = new ArrayList<Card>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(API_URL+"/cards/?");
 		for( String key : filters.keySet()) {
@@ -326,14 +287,9 @@ public class Db {
 			sb.append(key+"="+value+"&");
 		}
 		if( filters.size() > 0 ) sb.deleteCharAt(sb.length()-1);
-		JSONArray ja = getArray(sb.toString());
-		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
-		}
-		return cards;
+		return getCardsFromUrl(sb.toString());
 	}
-	
+
 	private static JSONObject getObject(String url) {
 		JSONObject ja;
 		try {
