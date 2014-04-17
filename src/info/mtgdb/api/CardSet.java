@@ -112,7 +112,7 @@ public class CardSet {
 	private String name;
 	private String block;
 	private String description;
-	private String wikipedia;
+	private String type;
 
 	private int common;
 	private int uncommon;
@@ -178,13 +178,14 @@ public class CardSet {
 		this.description = description;
 	}
 
-	public String getWikipedia() {
-		return wikipedia;
-	}
-
-	public void setWikipedia(String wikipedia) {
-		this.wikipedia = wikipedia;
-	}
+	/* Removed "wikipedia" field during alpha development. */
+//	public String getWikipedia() {
+//		return wikipedia;
+//	}
+//
+//	public void setWikipedia(String wikipedia) {
+//		this.wikipedia = wikipedia;
+//	}
 
 	public int getCommon() {
 		return common;
@@ -248,6 +249,14 @@ public class CardSet {
 
 	public void setTotal(int total) {
 		this.total = total;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

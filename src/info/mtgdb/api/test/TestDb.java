@@ -52,13 +52,26 @@ public class TestDb {
 	}
 	
 	@Test
+	public void testGetCardWithingSet() {
+		Card card = Db.getCardWithinSet("INV", 12);
+		assertNotNull("Card is null?", card);
+		assertEquals("Card cost should be 2WW.", "2WW", card.getManaCost());
+		assertEquals("Card type should be 'creature'.", "Creature", card.getType());
+		assertEquals("Card toughness should be 2.", 2, card.getToughness());
+		
+		card = Db.getCardWithinSet("TSP", 88);
+		assertNotNull("Card is null?", card);
+		assertEquals("Card cost should be 1U.", "1U", card.getManaCost());
+		assertEquals("Card type should be 'Instant'.", "Instant", card.getType());
+		assertEquals("Card toughness should be 0.", 0, card.getToughness());
+	}
+	
+	@Test
 	public void testGetRandom() {
 		Card card = Db.getRandom();
-		//System.out.println("Got "+card.getName()+" from "+card.getCardSetId());
 		assertNotNull("We didn't retrieve a random card.", card);
 		
 		card = Db.getRandom("ALA");
-		//System.out.println("Got "+card.getName()+" from "+card.getCardSetId());
 		assertNotNull("We didn't retrieve a random card from ALA.", card);
 		assertEquals("Card was not from ALA.", "ALA", card.getCardSetId());
 	}
@@ -127,8 +140,13 @@ public class TestDb {
 	@Test
 	public void testSearchCards() {
 		ArrayList<Card> cards = Db.searchCards("shock");
-		//System.out.println("num cards = "+cards.size());
 		assertTrue("There should have been more cards when searching for 'shock'.", cards.size() > 1);
+		
+		cards = Db.searchCards("coward");
+		//for( Card c : cards ) {
+			//System.out.println(c.getName());
+		//}
+		assertNotNull("Didn't retrieve and cards via search.", cards);
 	}
 	
 	@Test

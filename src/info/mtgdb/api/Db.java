@@ -61,6 +61,15 @@ public class Db {
 		API_URL = url;
 	}
 
+	/**
+	 * This method will allow the user to supply an arbitrary URL string from which
+	 * he or she expects to receive a card.  If new API calls are added to mtgdb.info
+	 * in the future, this method would be the way to get data from those new calls
+	 * while waiting for a proper update to this Java API.
+	 * 
+	 * @param url String
+	 * @return
+	 */
 	public static Card getCardFromUrl(String url) {
 		Card card = null;
 		JSONObject root = getObject(url);
@@ -69,6 +78,11 @@ public class Db {
 		return card;
 	}
 
+	/**
+	 * Same as {@link getCardFromUrl} but for CardSet objects instead of Cards.
+	 * @param url
+	 * @return
+	 */
 	public static CardSet getSetFromUrl(String url) {
 		CardSet cardSet = null;
 
@@ -78,6 +92,11 @@ public class Db {
 		return cardSet;
 	}
 
+	/**
+	 * Same as {@link getCardFromUrl} but for ArrayList<Card> objects instead of Cards.
+	 * @param url
+	 * @return
+	 */
 	public static ArrayList<Card> getCardsFromUrl(String url) {
 		ArrayList<Card> cards = new ArrayList<Card>();
 		
@@ -120,6 +139,25 @@ public class Db {
 	 */
 	public static Card getCard(int id) {
 		String url = API_URL+"/cards/"+id;
+		return getCardFromUrl(url);
+	}
+	
+	/*
+	Get a card in a set
+
+	Get http://api.mtgdb.info/sets/[id]/cards/[setNumber] 
+	This is by the card number in the set not multiverse Id
+	 */
+	
+	/**
+	 * Get a card from a set based on its number within that set.
+	 * 
+	 * @param set The set id
+	 * @param id The id of a card within set.
+	 * @return A {@link Card} referenced by id.
+	 */
+	public static Card getCardWithinSet(String set, int id) {
+		String url = API_URL+"/sets/"+set+"/cards/"+id;
 		return getCardFromUrl(url);
 	}
 
@@ -217,7 +255,7 @@ public class Db {
 
 		return getCardsFromUrl(sb.toString());
 	}
-
+	
 	/**
 	 * Get all versions of a card with the supplied name.
 	 * 
@@ -297,12 +335,16 @@ public class Db {
 			JSONTokener tokener = new JSONTokener(ur.openStream());
 			ja = new JSONObject(tokener);
 		} catch (JSONException e) {
+			System.err.println("Problem with the JSON?  That isn't good.");
 			e.printStackTrace();
 			return null;
 		} catch (MalformedURLException e) {
+			System.err.println("Check your URL for correctness.");
+			System.err.println("'"+url+"' is malformed for some reason.");
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			System.err.println("Problem opening an input stream from the URL: "+url);
 			e.printStackTrace();
 			return null;
 		}
@@ -317,12 +359,16 @@ public class Db {
 			JSONTokener tokener = new JSONTokener(ur.openStream());
 			ja = new JSONArray(tokener);
 		} catch (JSONException e) {
+			System.err.println("Problem with the JSON?  That isn't good.");
 			e.printStackTrace();
 			return null;
 		} catch (MalformedURLException e) {
+			System.err.println("Check your URL for correctness.");
+			System.err.println("'"+url+"' is malformed for some reason.");
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
+			System.err.println("Problem opening an input stream from the URL: "+url);
 			e.printStackTrace();
 			return null;
 		}
