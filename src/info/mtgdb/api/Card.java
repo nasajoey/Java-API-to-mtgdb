@@ -359,16 +359,16 @@ public class Card {
 	 * 
 	 * @return int Converted mana cost.
 	 */
-	public int getConvertedMonaCost() {
+	public int getConvertedManaCost() {
 		return convertedManaCost;
 	}
 
 	/**
 	 * 
-	 * @param convertedMonaCost
+	 * @param convertedManaCost
 	 */
-	public void setConvertedMonaCost(int convertedMonaCost) {
-		this.convertedManaCost = convertedMonaCost;
+	public void setConvertedManaCost(int convertedManaCost) {
+		this.convertedManaCost = convertedManaCost;
 	}
 
 	/**
