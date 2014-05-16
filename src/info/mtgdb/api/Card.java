@@ -359,7 +359,7 @@ public class Card {
 	 * 
 	 * @return int Converted mana cost.
 	 */
-	public int getConvertedMonaCost() {
+	public int getConvertedManaCost() {
 		return convertedManaCost;
 	}
 
