@@ -31,7 +31,11 @@ import java.util.HashMap;
 
 import info.mtgdb.api.Card;
 import info.mtgdb.api.CardSet;
+import info.mtgdb.api.ComplexQuery;
 import info.mtgdb.api.Db;
+import info.mtgdb.api.QueryElement;
+import info.mtgdb.api.QueryElement.Field;
+import info.mtgdb.api.QueryElement.Operator;
 
 import org.junit.Test;
 import org.junit.Ignore;
@@ -44,13 +48,53 @@ import org.junit.Ignore;
  */
 public class TestDb {
 
-	
+	@Ignore
 	@Test
 	public void testGetCard() {
 		Card card = Db.getCard(14456);
 		assertEquals("Card id should be 14456.", 14456, card.getId());
+		
+		//card = Db.getCard(38277);
+		//System.out.println("Card name = "+card.getName());
 	}
 	
+	@Test
+	public void testComplexQuery() {
+		ComplexQuery cq = new ComplexQuery();
+		QueryElement qe = new QueryElement(Field.convertedmanacost, Operator.eq, 4);
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.type, Operator.m, "'Creature'");
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.color, Operator.eq, "blue");
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.power, Operator.gte, 5);
+		cq.addQueryElement(qe);
+		//cq.setLimit(3);
+		
+		ArrayList<Card> cards = Db.getCardsByComplexQuery(cq);
+		assertTrue("Color should be blue.", cards.get(0).getColors().contains("blue"));
+		assertTrue("Power should be >= 5.", cards.get(0).getPower() >= 5);
+		assertTrue("Should have at least 13 matches.", cards.size() >= 13);
+		
+		cq = new ComplexQuery();
+		qe = new QueryElement(Field.type, Operator.m, "'Sorcery'");
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.color, Operator.eq, "green");
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.color, Operator.eq, "red");
+		cq.addQueryElement(qe);
+		qe = new QueryElement(Field.convertedmanacost, Operator.lt, 5);
+		cq.addQueryElement(qe);
+		cards = Db.getCardsByComplexQuery(cq);
+		//int i = 0;
+		//for( Card c : cards ) System.out.println((i++)+": "+c.getName());
+		assertTrue("Color should contain green.", cards.get(0).getColors().contains("green"));
+		assertTrue("Color should contain red.", cards.get(0).getColors().contains("red"));
+		assertTrue("Power should be >= 5.", cards.get(0).getConvertedMonaCost() < 5);
+		assertTrue("Should have at least 29 matches.", cards.size() >= 29);
+	}
+	
+	@Ignore
 	@Test
 	public void testGetCardWithingSet() {
 		Card card = Db.getCardWithinSet("INV", 12);
@@ -88,7 +132,7 @@ public class TestDb {
 	@Test
 	public void testGetSet() {
 		CardSet cardSet = Db.getSet("10E");
-		//System.out.println("10E cards: "+cardSet.getCardIds().size());
+		System.out.println("10E cards: "+cardSet.getCardIds().size());
 		assertEquals("The set should be 10E.", "10E", cardSet.getId());
 		assertEquals("The number of cards in 10E should be 368.", 368, cardSet.getTotal());
 	}
@@ -137,6 +181,7 @@ public class TestDb {
 		assertTrue("There should have been waaaaaay more cards.", cards.size() > 1000);
 	}
 	
+	@Ignore
 	@Test
 	public void testSearchCards() {
 		ArrayList<Card> cards = Db.searchCards("shock");
@@ -149,6 +194,7 @@ public class TestDb {
 		assertNotNull("Didn't retrieve and cards via search.", cards);
 	}
 	
+	@Ignore
 	@Test
 	public void testSearchCardsCleaningQuery() {
 		ArrayList<Card> cards = Db.searchCards("shock");
@@ -158,6 +204,7 @@ public class TestDb {
 		assertTrue("Should have retrieved the same number of cards", cards.size() == cardsB.size());
 	}
 	
+	@Ignore
 	@Test
 	public void testFilterArtist() {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -166,6 +213,7 @@ public class TestDb {
 		assertTrue("Should only be two cards by Jennifer Law.", cards.size() == 2);
 	}
 	
+	@Ignore
 	@Test
 	public void testFilterArtistAndColors() {
 		HashMap<String, String> map = new HashMap<String, String>();

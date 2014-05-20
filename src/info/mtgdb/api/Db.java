@@ -77,6 +77,7 @@ public class Db {
 
 		return card;
 	}
+	
 
 	/**
 	 * Same as {@link getCardFromUrl} but for CardSet objects instead of Cards.
@@ -142,12 +143,12 @@ public class Db {
 		return getCardFromUrl(url);
 	}
 	
-	/*
-	Get a card in a set
-
-	Get http://api.mtgdb.info/sets/[id]/cards/[setNumber] 
-	This is by the card number in the set not multiverse Id
-	 */
+	
+	public static ArrayList<Card> getCardsByComplexQuery(ComplexQuery cq) {
+		String url = API_URL+"/search/?q="+cq.toString();
+		System.out.println("URL: "+url);
+		return getCardsFromUrl(url);
+	}
 	
 	/**
 	 * Get a card from a set based on its number within that set.
