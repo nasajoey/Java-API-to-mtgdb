@@ -90,7 +90,7 @@ public class TestDb {
 		//for( Card c : cards ) System.out.println((i++)+": "+c.getName());
 		assertTrue("Color should contain green.", cards.get(0).getColors().contains("green"));
 		assertTrue("Color should contain red.", cards.get(0).getColors().contains("red"));
-		assertTrue("Power should be >= 5.", cards.get(0).getConvertedMonaCost() < 5);
+		assertTrue("Power should be >= 5.", cards.get(0).getConvertedManaCost() < 5);
 		assertTrue("Should have at least 29 matches.", cards.size() >= 29);
 	}
 	
