@@ -135,7 +135,9 @@ public class Card {
 						else continue;
 					}
 					else if( cardField.type.matches("java.util.Date") ) {
-						Date date = dateFormatterInput.parse(json.getString(s));						
+						Object o = json.get(s);
+						if( o == null ) {cardField.f.set(this, null); continue;}
+						Date date = dateFormatterInput.parse((String) o);							
 						cardField.f.set(this, date);
 					}
 					else if( cardField.type.matches("java.util.List") ) {
@@ -165,8 +167,14 @@ public class Card {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
-				} catch (ParseException e) {
+				/*} catch (ParseException e) {
 					e.printStackTrace();
+					System.err.println("s = "+s);
+					System.err.println("CardField = "+cardField.type);*/
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println("s = "+s);
+					System.err.println("CardField = "+cardField.type);
 				}
 			}
 			//else System.out.println(s+" wasn't found.");
@@ -209,7 +217,7 @@ public class Card {
 	private List<Ruling> rulings	= null;
 	private List<Format> formats	= null;
 
-	private Date releasedAt			= null;
+	private String releasedAt			= null;
 	
 	private boolean token			= false;
 
@@ -530,9 +538,9 @@ public class Card {
 	}
 
 	/**
-	 * @return Date release Date for this Card.
+	 * @return String release date for this Card as a String.
 	 */
-	public Date getReleasedAt() {
+	public String getReleasedAt() {
 		return releasedAt;
 	}
 	
@@ -548,7 +556,7 @@ public class Card {
 	/**
 	 * @param releasedAt
 	 */
-	public void setReleasedAt(Date releasedAt) {
+	public void setReleasedAt(String releasedAt) {
 		this.releasedAt = releasedAt;
 	}
 

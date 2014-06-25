@@ -181,7 +181,6 @@ public class TestDb {
 		assertTrue("There should have been waaaaaay more cards.", cards.size() > 1000);
 	}
 	
-	@Ignore
 	@Test
 	public void testSearchCards() {
 		ArrayList<Card> cards = Db.searchCards("shock");
@@ -194,7 +193,7 @@ public class TestDb {
 		assertNotNull("Didn't retrieve and cards via search.", cards);
 	}
 	
-	@Ignore
+
 	@Test
 	public void testSearchCardsCleaningQuery() {
 		ArrayList<Card> cards = Db.searchCards("shock");
@@ -204,7 +203,6 @@ public class TestDb {
 		assertTrue("Should have retrieved the same number of cards", cards.size() == cardsB.size());
 	}
 	
-	@Ignore
 	@Test
 	public void testFilterArtist() {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -213,7 +211,6 @@ public class TestDb {
 		assertTrue("Should only be two cards by Jennifer Law.", cards.size() == 2);
 	}
 	
-	@Ignore
 	@Test
 	public void testFilterArtistAndColors() {
 		HashMap<String, String> map = new HashMap<String, String>();
