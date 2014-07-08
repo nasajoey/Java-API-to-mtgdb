@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="Java API to mtgdb/mtgdb.info_java_api.jar"/>
+    <options buildIfNeeded="true" compress="false" descriptionLocation="/Java API to mtgdb/jar_desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/Java API to mtgdb/.gitignore"/>
+        <file path="/Java API to mtgdb/index.html"/>
+        <file path="/Java API to mtgdb/README.md"/>
+        <javaElement handleIdentifier="=Java API to mtgdb/src"/>
+        <file path="/Java API to mtgdb/.classpath"/>
+        <file path="/Java API to mtgdb/.project"/>
+        <folder path="/Java API to mtgdb/doc"/>
+    </selectedElements>
+</jardesc>

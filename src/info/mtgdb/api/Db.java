@@ -105,8 +105,10 @@ public class Db {
 
 		/* Process the JSON to create the list of cards. */
 		for( int i = 0; i < ja.length(); i++ ) {
-			Card card = new Card(ja.getJSONObject(i));
-			if( card != null ) cards.add(card);
+			//if( i == 0 ) System.out.println(ja.getJSONObject(0).toString());
+			Card c = new Card(ja.getJSONObject(i));
+			//if( i == 0 ) System.out.println(c.getName()+" "+c.getArtist()+" "+c.getCardSetId()+" "+c.getId()+" "+c.getRarity());
+			if( c != null ) cards.add(c);
 		}
 
 		return cards;

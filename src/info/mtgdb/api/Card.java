@@ -117,7 +117,7 @@ public class Card {
 		@SuppressWarnings("unchecked")
 		Set<String> set = json.keySet();
 		for( String s : set ) {
-			CardField cardField = memberTypeHash.get(s);
+			CardField cardField = memberTypeHash.get(s.toLowerCase());
 			if( cardField != null) {
 				//System.out.println(s+" is a "+cardField.type);
 				try {
@@ -189,7 +189,7 @@ public class Card {
 			CardField cf = new CardField();
 			cf.type = f.getType().getCanonicalName();
 			cf.f = f;
-			memberTypeHash.put(f.getName(), cf);
+			memberTypeHash.put(f.getName().toLowerCase(), cf);
 		}
 	}
 

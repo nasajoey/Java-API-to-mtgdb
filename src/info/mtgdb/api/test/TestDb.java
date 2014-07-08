@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import info.mtgdb.api.Card;
 import info.mtgdb.api.CardSet;
@@ -56,6 +57,20 @@ public class TestDb {
 		
 		//card = Db.getCard(38277);
 		//System.out.println("Card name = "+card.getName());
+	}
+	
+	@Test
+	public void testFieldQuery() {
+		HashSet<String> fields = new HashSet<String>();
+		fields.add("id");
+		fields.add("name");
+		fields.add("cardsetid");
+		ArrayList<Card> cards = Db.getCards(fields);
+		
+		System.out.println("cards size = "+cards.size());
+		Card c = cards.get(0);
+		System.out.println(c.getName()+" "+c.getArtist()+" "+c.getCardSetId()+" "+c.getId()+" "+c.getRarity());
+		assertTrue("Should not be zero.", cards.size() > 0);
 	}
 	
 	@Test
