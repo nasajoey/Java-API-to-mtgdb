@@ -300,7 +300,7 @@ public class Db {
 	 */
 	public static ArrayList<Card> searchCards(String searchText) {
 		searchText = searchText.replaceAll("[^A-Za-z0-9 -]", "");
-		String url = API_URL+"/search/"+searchText;
+		String url = API_URL+"/search/?q="+searchText;
 		return getCardsFromUrl(url);
 	}
 
