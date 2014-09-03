@@ -232,7 +232,7 @@ public class Card {
 	 * @return String of the URL to retrieve this Card object's image in high resolution.
 	 */
 	public String getHiResImageUrl() {
-		return "https://api.mtgdb.info/content/hi_res_card_images/"+id+".jpeg";
+		return "https://api.mtgdb.info/content/hi_res_card_images/"+id+".jpg";
 	}
 
 	/**
